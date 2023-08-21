@@ -1,13 +1,51 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "Rainy Hearts";
+  src: local("Rainy Hearts"),
+    url("./assets/fonts/rainyhearts.ttf") format("truetype");
+  font-weight: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+  font-family: "Rainy Hearts";
+  font-size: calc(16px * 1.2);
+  -webkit-font-smoothing: none;
+  text-rendering: optimizeSpeed;
+  box-sizing: border-box;
+}
+
+img {
+  image-rendering: -moz-crisp-edges; /* Firefox */
+  image-rendering: -webkit-crisp-edges; /* Webkit - Chrome, Safari */
+  image-rendering: crisp-edges; /* Spec */
+  image-rendering: pixelated; /* Chrome */
+}
+
+body,
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: url("./assets/images/mouse.png"), auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
