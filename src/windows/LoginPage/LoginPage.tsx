@@ -1,9 +1,18 @@
 import { styled } from "styled-components";
 import { useUser } from "../../context/user-context";
 import axios from "axios";
+import { useLocalUser } from "../../helpers/useLocalUser";
+import { useEffect } from "react";
 
 export const LoginPage: React.FC = () => {
+  const user = useLocalUser();
   const [, setUser] = useUser();
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+    }
+  }, [user]);
 
   const onLogin = async () => {
     const user = await axios.get(
@@ -18,6 +27,7 @@ export const LoginPage: React.FC = () => {
     );
 
     if (user.status === 200) {
+      localStorage.setItem("user", JSON.stringify(user.data));
       setUser(user.data);
     }
   };
