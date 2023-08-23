@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { Text } from "../Text/Text";
 
 interface AppIconProps {
   title: string;
@@ -10,7 +11,9 @@ export const AppIcon: React.FC<AppIconProps> = ({ title, icon, onOpen }) => {
   return (
     <Container onClick={onOpen}>
       <Icon src={icon} draggable={false} />
-      {title}
+      <Text color="white" withShadow={`#1F1D1D`} style={{ fontSize: 14 }}>
+        {title}
+      </Text>
     </Container>
   );
 };
@@ -20,19 +23,21 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 60px;
+  font-weight: bold;
+  width: 84px;
   padding: 4px;
   height: fit-content;
   user-select: none;
+  cursor: pointer;
 
   &:hover {
-    border: 2px solid #d1d1d1;
+    outline: 2px solid #9d7c72;
   }
 `;
 
 const Icon = styled.img`
   width: 40px;
   height: 40px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   user-select: none;
 `;

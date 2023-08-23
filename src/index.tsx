@@ -13,6 +13,7 @@ root.render(
   <React.StrictMode>
     <ContextProvider>
       <App />
+      <div id="modal-root"></div>
     </ContextProvider>
   </React.StrictMode>
 );

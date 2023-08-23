@@ -3,8 +3,7 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { Desktop } from "./components/Desktop/Desktop";
 import { AppIcon } from "./components/AppIcon/AppIcon";
 
-import BankImg from "./assets/images/bank.jpg";
-// import CoinImg from "./assets/images/coin.png";
+import BankImg from "./assets/images/bank.png";
 import { useState } from "react";
 import { CentralBank } from "./windows/CentralBank/CentralBank";
 import { useUser } from "./context/user-context";
@@ -39,8 +38,6 @@ function App() {
               icon={BankImg}
               onOpen={onOpen("central-bank")}
             />
-            {/* <AppIcon title="GLV Coin" icon={CoinImg} onOpen={onOpen("glv-coin")} /> */}
-            {/* <AppIcon title="My Computers" icon={} /> */}
 
             <CentralBank
               isOpen={openWindows.includes("central-bank")}
@@ -51,13 +48,23 @@ function App() {
       ) : (
         <LoginPage />
       )}
+      <AppVersion>beta-0.2.0</AppVersion>
     </Container>
   );
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+`;
+
+export const AppVersion = styled.div`
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  user-select: none;
 `;
 
 export default App;

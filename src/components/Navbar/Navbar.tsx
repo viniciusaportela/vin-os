@@ -1,23 +1,49 @@
 import { styled } from "styled-components";
+import OsLogoSvg from "../../assets/images/os_logo.svg";
+import { Divider } from "../Divider/Divider";
 import { useUser } from "../../context/user-context";
+import LogoutImg from "../../assets/images/logout.png";
 
 export const Navbar = () => {
-  const [user] = useUser();
+  const [, setUser] = useUser();
+
+  const onLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
 
   return (
     <Container>
-      <PlayerIcon src={`https://mc-heads.net/avatar/${user?.name}`} />
+      <OsLogo src={OsLogoSvg} />
+      <Divider vertical />
+      <Apps></Apps>
+      <Logout onClick={onLogout} src={LogoutImg} />
     </Container>
   );
 };
 
-const PlayerIcon = styled.img`
+const OsLogo = styled.img`
   height: 100%;
+  margin-right: 8px;
 `;
 
 const Container = styled.div`
+  display: flex;
+  align-items: center;
+
   width: 100%;
   height: 50px;
-  padding: 5px 30px;
-  background-color: #c7c2c2;
+  padding: 5px 20px;
+  background-color: #fff;
+  border-bottom: 2px solid #212122;
+`;
+
+const Apps = styled.div`
+  flex: 1;
+`;
+
+const Logout = styled.img`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 `;
