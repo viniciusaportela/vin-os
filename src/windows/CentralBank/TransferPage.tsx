@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { Balance } from "./Balance";
 import { useUser } from "../../context/user-context";
-import axios from "axios";
 import { Alert } from "../../components/Alert/Alert";
 import { SubHeader } from "../../components/SubHeader/SubHeader";
 import { Input, InputLabel } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { PlayerIcon } from "../../components/PlayerIcon/PlayerIcon";
+import { PlayersApi } from "../../core/api/PlayersApi";
 
 interface TransferPageProps {
   setPage: Dispatch<SetStateAction<string>>;
@@ -31,15 +31,11 @@ export const TransferPage: React.FC<TransferPageProps> = ({ setPage }) => {
 
   const updatePlayers = async () => {
     try {
-      const playersRes = await axios.get(
-        `${process.env.REACT_APP_API_URL}/players/list`
-      );
+      const playersRes = await PlayersApi.list();
 
-      if (playersRes.status === 200) {
-        setPlayers(
-          playersRes.data.filter((player: any) => player.id !== user?.id)
-        );
-      }
+      setPlayers(
+        playersRes.data.filter((player: any) => player.id !== user?.id)
+      );
     } catch (err) {}
   };
 
@@ -49,14 +45,11 @@ export const TransferPage: React.FC<TransferPageProps> = ({ setPage }) => {
 
   const transfer = async () => {
     try {
-      const playersRes = await axios.post(
-        `${process.env.REACT_APP_API_URL}/players/transferCoins`,
-        {
-          from: user?.name,
-          to: selectedPlayer?.name,
-          amount: quantity,
-        }
-      );
+      const playersRes = await PlayersApi.transferCoins({
+        from: user?.name,
+        to: selectedPlayer?.name,
+        amount: quantity,
+      });
 
       if (playersRes.status === 200) {
         setUser((user: any) => ({ ...user, coins: user.coins - quantity }));

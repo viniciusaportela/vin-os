@@ -15,6 +15,8 @@ interface WindowProps extends PropsWithChildren {
   hideButtons?: boolean;
   customHeaderColor?: string;
   style?: CSSProperties;
+  backdrop?: boolean;
+  onBackdropClick?: () => void;
 }
 
 export const Window: React.FC<WindowProps> = ({
@@ -27,11 +29,14 @@ export const Window: React.FC<WindowProps> = ({
   hideButtons,
   customHeaderColor,
   style,
+  backdrop,
+  onBackdropClick,
 }) => {
   const id = useRef(v4());
 
   return (
     <Modal>
+      {backdrop && <Backdrop onClick={onBackdropClick} />}
       <Draggable
         defaultPosition={{
           x:
@@ -52,20 +57,26 @@ export const Window: React.FC<WindowProps> = ({
               >
                 <HeaderSide />
                 <Title>{title}</Title>
-                {!hideButtons && (
-                  <HeaderSide style={{ justifyContent: "flex-end" }}>
-                    <HeaderButton
-                      color={theme.colors.yellow}
-                      style={{ paddingTop: 4 }}
-                      onClick={onMinimize}
-                    >
-                      -
-                    </HeaderButton>
-                    <HeaderButton onClick={onClose} color={theme.colors.orange}>
-                      x
-                    </HeaderButton>
-                  </HeaderSide>
-                )}
+
+                <HeaderSide style={{ justifyContent: "flex-end" }}>
+                  {!hideButtons && (
+                    <>
+                      <HeaderButton
+                        color={theme.colors.yellow}
+                        style={{ paddingTop: 4 }}
+                        onClick={onMinimize}
+                      >
+                        -
+                      </HeaderButton>
+                      <HeaderButton
+                        onClick={onClose}
+                        color={theme.colors.orange}
+                      >
+                        x
+                      </HeaderButton>
+                    </>
+                  )}
+                </HeaderSide>
               </Header>
               <Children>{children}</Children>
             </Content>
@@ -77,8 +88,18 @@ export const Window: React.FC<WindowProps> = ({
   );
 };
 
+const Backdrop = styled.div`
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
 const Title = styled.span`
   margin-top: -6px;
+  text-align: center;
 `;
 
 const Content = styled.div`
@@ -88,8 +109,7 @@ const Content = styled.div`
   max-height: 500px;
   flex: 1;
   background-color: white;
-  border-radius: 12px;
-  padding-top: 4px;
+  border-radius: 9px;
   overflow-y: hidden;
   overflow-x: hidden;
 `;
@@ -143,8 +163,7 @@ const Header = styled.div<{ customHeaderColor?: string }>`
   display: flex;
   align-items: center;
   padding: 4px 10px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  background-color: ${({ customHeaderColor }) => customHeaderColor ?? "white"};
   border-bottom: 2px solid ${theme.colors.dark};
 `;
 

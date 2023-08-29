@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { useUser } from "../../context/user-context";
-import axios from "axios";
 import { useLocalUser } from "../../helpers/useLocalUser";
 import { useEffect, useState } from "react";
 import OsLogoImg from "../../assets/images/os_logo.svg";
@@ -8,6 +7,7 @@ import { Alert } from "../../components/Alert/Alert";
 import { Button } from "../../components/Button/Button";
 import { theme } from "../../helpers/theme";
 import { Input } from "../../components/Input/Input";
+import { PlayersApi } from "../../core/api/PlayersApi";
 
 export const LoginPage: React.FC = () => {
   const user = useLocalUser();
@@ -23,21 +23,12 @@ export const LoginPage: React.FC = () => {
 
   const onLogin = async () => {
     try {
-      const user = await axios.get(
-        `${process.env.REACT_APP_API_URL}/players/get`,
-        {
-          params: {
-            playerName: (
-              document.getElementById("playerName") as HTMLInputElement
-            ).value,
-          },
-        }
+      const user = await PlayersApi.get(
+        (document.getElementById("playerName") as HTMLInputElement).value
       );
 
-      if (user.status === 200) {
-        localStorage.setItem("user", JSON.stringify(user.data));
-        setUser(user.data);
-      }
+      localStorage.setItem("user", JSON.stringify(user.data));
+      setUser(user.data);
     } catch (err) {
       console.log(err);
       setAlertIsOpen(true);

@@ -6,6 +6,7 @@ interface ButtonProps extends PropsWithChildren {
   onClick?: () => void;
   style?: CSSProperties;
   className?: string;
+  color?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -13,16 +14,22 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   style,
   className,
+  color,
 }) => {
   return (
-    <ButtonElement onClick={onClick} style={style} className={className}>
+    <ButtonElement
+      onClick={onClick}
+      style={style}
+      className={className}
+      color={color}
+    >
       {children}
     </ButtonElement>
   );
 };
 
-const ButtonElement = styled.div`
-  background-color: ${theme.colors.primary};
+const ButtonElement = styled.div<{ color?: string }>`
+  background-color: ${({ color }) => color ?? theme.colors.primary};
   font-weight: bold;
   padding: 10px;
   font-size: 14px;

@@ -2,12 +2,14 @@ import { styled } from "styled-components";
 import { Window } from "../../components/Window/Window";
 import { useEffect, useState } from "react";
 import { useUser } from "../../context/user-context";
-import axios from "axios";
 import { TransferPage } from "./TransferPage";
 import { formatCoins } from "../../helpers/formatCoins";
 import { Balance } from "./Balance";
 import { Button } from "../../components/Button/Button";
 import { Divider } from "../../components/Divider/Divider";
+import { PlayersApi } from "../../core/api/PlayersApi";
+import { MiningApi } from "../../core/api/MiningApi";
+import { TransfersApi } from "../../core/api/TransfersApi";
 
 interface CentralBankProps {
   isOpen?: boolean;
@@ -37,30 +39,16 @@ export const CentralBank: React.FC<CentralBankProps> = ({
 
   const updateUser = async () => {
     try {
-      const userRes = await axios.get(
-        `${process.env.REACT_APP_API_URL}/players/get`,
-        {
-          params: {
-            playerName: user.name,
-          },
-        }
-      );
+      const userRes = PlayersApi.get(user.name);
 
-      if (userRes.status === 200) {
-        setUser(userRes.data);
-      }
+      setUser(userRes);
     } catch (err) {}
   };
 
   const updateProcessedBlocks = async () => {
     try {
-      const processedBlocks = await axios.get(
-        `${process.env.REACT_APP_API_URL}/mining/listProcessedBlocksWithPlayer`,
-        {
-          params: {
-            playerId: user.id,
-          },
-        }
+      const processedBlocks = await MiningApi.listProcessedBlocksWithPlayer(
+        user.id
       );
 
       if (processedBlocks.status === 200) {
@@ -71,14 +59,7 @@ export const CentralBank: React.FC<CentralBankProps> = ({
 
   const updateTransfers = async () => {
     try {
-      const transfers = await axios.get(
-        `${process.env.REACT_APP_API_URL}/transfers/listFromPlayer`,
-        {
-          params: {
-            playerId: user.id,
-          },
-        }
-      );
+      const transfers = await TransfersApi.listFromPlayer(user.id);
 
       if (transfers.status === 200) {
         setTransfers(transfers.data);

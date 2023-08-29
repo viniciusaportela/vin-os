@@ -28,7 +28,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onAppClick }) => {
           <OpenedAppContainer
             onClick={() => onAppClick?.(state.name as OsWindow)}
           >
-            <Image source={state.logo} />
+            <Image
+              source={state.logo}
+              style={{ width: 25, height: 25, objectFit: "contain" }}
+            />
           </OpenedAppContainer>
         ))}
       </Apps>

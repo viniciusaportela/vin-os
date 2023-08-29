@@ -1,10 +1,12 @@
 import { AppIcon } from "../../components/AppIcon/AppIcon";
 import { Desktop } from "../../components/Desktop/Desktop";
 import { Navbar } from "../../components/Navbar/Navbar";
-import { CentralBank } from "../CentralBank/CentralBank";
+import { CentralBank } from "../CentralBank/CentralBankWindow";
 import BankImg from "../../assets/images/bank.svg";
+import ComputerImg from "../../assets/images/computer.svg";
 import { useWindowsState } from "../../context/windows-state";
 import { OsWindow } from "../../constants/Windows";
+import { ComputersWindow } from "../Computers/ComputersWindow";
 
 export const VinOsDesktop = () => {
   const [windowsState, { openWindow, closeWindow, changeWindowOpened }] =
@@ -44,6 +46,11 @@ export const VinOsDesktop = () => {
           icon={BankImg}
           onOpen={onOpen(OsWindow.CentralBank)}
         />
+        <AppIcon
+          title="Meus Computadores"
+          icon={ComputerImg}
+          onOpen={onOpen(OsWindow.Computers)}
+        />
 
         <CentralBank
           isOpen={
@@ -55,6 +62,18 @@ export const VinOsDesktop = () => {
           }
           onMinimize={onMinimize(OsWindow.CentralBank)}
           onClose={onClose(OsWindow.CentralBank)}
+        />
+
+        <ComputersWindow
+          isOpen={
+            !!windowsState.find((state) => state.name === OsWindow.Computers)
+          }
+          isVisible={
+            windowsState.find((state) => state.name === OsWindow.Computers)
+              ?.opened ?? true
+          }
+          onClose={onClose(OsWindow.Computers)}
+          onMinimize={onMinimize(OsWindow.Computers)}
         />
       </Desktop>
     </>
