@@ -1,12 +1,12 @@
 import axios from "axios";
 
 export class TransfersApi {
-  static listFromPlayer(playerId: number) {
-    const transfers = axios.post(
+  static async listFromPlayer(playerId: number) {
+    const transfers = await axios.get(
       `${process.env.REACT_APP_API_URL}/transfers/listFromPlayer`,
-      { playerId }
+      { params: { playerId } }
     );
 
-    return transfers;
+    return transfers.data;
   }
 }

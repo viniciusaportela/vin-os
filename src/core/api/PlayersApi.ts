@@ -7,26 +7,26 @@ interface ITransferCoinsBody {
 }
 
 export class PlayersApi {
-  static get(playerName: string) {
-    const player = axios.get(`${process.env.REACT_APP_API_URL}/players/get`, {
+  static async get(playerName: string) {
+    const player = await axios.get(`${process.env.REACT_APP_API_URL}/players/get`, {
       params: { playerName },
     });
 
-    return player;
+    return player.data;
   }
 
-  static list() {
-    const players = axios.get(`${process.env.REACT_APP_API_URL}/players/list`);
+  static async list() {
+    const players = await axios.get(`${process.env.REACT_APP_API_URL}/players/list`);
 
-    return players;
+    return players.data;
   }
 
-  static transferCoins(body: ITransferCoinsBody) {
-    const transferCoins = axios.post(
+  static async transferCoins(body: ITransferCoinsBody) {
+    const transferCoins = await axios.post(
       `${process.env.REACT_APP_API_URL}/players/transferCoins`,
       body
     );
 
-    return transferCoins;
+    return transferCoins.data;
   }
 }

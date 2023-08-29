@@ -33,9 +33,7 @@ export const TransferPage: React.FC<TransferPageProps> = ({ setPage }) => {
     try {
       const playersRes = await PlayersApi.list();
 
-      setPlayers(
-        playersRes.data.filter((player: any) => player.id !== user?.id)
-      );
+      setPlayers(playersRes.filter((player: any) => player.id !== user?.id));
     } catch (err) {}
   };
 
@@ -45,16 +43,14 @@ export const TransferPage: React.FC<TransferPageProps> = ({ setPage }) => {
 
   const transfer = async () => {
     try {
-      const playersRes = await PlayersApi.transferCoins({
+      await PlayersApi.transferCoins({
         from: user?.name,
         to: selectedPlayer?.name,
         amount: quantity,
       });
 
-      if (playersRes.status === 200) {
-        setUser((user: any) => ({ ...user, coins: user.coins - quantity }));
-        goBack();
-      }
+      setUser((user: any) => ({ ...user, coins: user.coins - quantity }));
+      goBack();
     } catch (err) {
       console.error(err);
       setIsAlertOpen(true);

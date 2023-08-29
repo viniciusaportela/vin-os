@@ -39,7 +39,7 @@ export const CentralBank: React.FC<CentralBankProps> = ({
 
   const updateUser = async () => {
     try {
-      const userRes = PlayersApi.get(user.name);
+      const userRes = await PlayersApi.get(user.name);
 
       setUser(userRes);
     } catch (err) {}
@@ -51,9 +51,7 @@ export const CentralBank: React.FC<CentralBankProps> = ({
         user.id
       );
 
-      if (processedBlocks.status === 200) {
-        setProcessedBlocks(processedBlocks.data);
-      }
+      setProcessedBlocks(processedBlocks);
     } catch (err) {}
   };
 
@@ -61,9 +59,7 @@ export const CentralBank: React.FC<CentralBankProps> = ({
     try {
       const transfers = await TransfersApi.listFromPlayer(user.id);
 
-      if (transfers.status === 200) {
-        setTransfers(transfers.data);
-      }
+      setTransfers(transfers);
     } catch (err) {}
   };
 
@@ -86,6 +82,8 @@ export const CentralBank: React.FC<CentralBankProps> = ({
         return getTransferMessage(entity);
       }
     });
+
+  console.log(transfers, processedBlocks);
 
   const goToTransfer = () => {
     setPage("transfer");

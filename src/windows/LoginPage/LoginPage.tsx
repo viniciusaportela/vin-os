@@ -10,16 +10,16 @@ import { Input } from "../../components/Input/Input";
 import { PlayersApi } from "../../core/api/PlayersApi";
 
 export const LoginPage: React.FC = () => {
-  const user = useLocalUser();
+  const localUser = useLocalUser();
   const [, setUser] = useUser();
 
   const [alertIsOpen, setAlertIsOpen] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setUser(user);
+    if (localUser) {
+      setUser(localUser);
     }
-  }, [user]);
+  }, [localUser]);
 
   const onLogin = async () => {
     try {
@@ -27,8 +27,10 @@ export const LoginPage: React.FC = () => {
         (document.getElementById("playerName") as HTMLInputElement).value
       );
 
-      localStorage.setItem("user", JSON.stringify(user.data));
-      setUser(user.data);
+      console.log(user);
+
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
     } catch (err) {
       console.log(err);
       setAlertIsOpen(true);
