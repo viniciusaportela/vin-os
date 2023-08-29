@@ -83,8 +83,6 @@ export const CentralBank: React.FC<CentralBankProps> = ({
       }
     });
 
-  console.log(transfers, processedBlocks);
-
   const goToTransfer = () => {
     setPage("transfer");
   };

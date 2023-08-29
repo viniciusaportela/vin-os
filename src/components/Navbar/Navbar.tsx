@@ -64,7 +64,7 @@ const LogoutButton = styled.div`
   border: 2px #33322e solid;
   border-radius: 12px;
   padding: 10px;
-  background-color: ${theme.colors.orange};
+  background-color: ${theme.colors.orangeFaded};
 
   height: 47px;
   width: 47px;

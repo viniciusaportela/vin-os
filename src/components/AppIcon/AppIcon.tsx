@@ -24,8 +24,7 @@ const Container = styled.div`
   align-items: center;
   text-align: center;
   font-weight: bold;
-  width: 100px;
-  height: fit-content;
+  width: 110px;
   padding: 8px 4px;
   user-select: none;
   cursor: pointer;

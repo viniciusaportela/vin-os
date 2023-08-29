@@ -9,4 +9,17 @@ export class MiningApi {
 
     return processedBlocks.data;
   }
+
+  static async getStats(playerId: string): Promise<any | never> {
+    const stats = await axios.get(
+      `${process.env.REACT_APP_API_URL}/mining/stats`,
+      {
+        params: {
+          playerId,
+        },
+      }
+    );
+
+    return stats.data;
+  }
 }

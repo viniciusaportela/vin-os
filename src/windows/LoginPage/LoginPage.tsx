@@ -27,12 +27,9 @@ export const LoginPage: React.FC = () => {
         (document.getElementById("playerName") as HTMLInputElement).value
       );
 
-      console.log(user);
-
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
     } catch (err) {
-      console.log(err);
       setAlertIsOpen(true);
     }
   };

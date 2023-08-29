@@ -70,7 +70,7 @@ export const Window: React.FC<WindowProps> = ({
                       </HeaderButton>
                       <HeaderButton
                         onClick={onClose}
-                        color={theme.colors.orange}
+                        color={theme.colors.orangeFaded}
                       >
                         x
                       </HeaderButton>

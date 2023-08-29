@@ -39,5 +39,5 @@ interface ITransfer {
 enum ComputerType {
   Common = "common",
   Miner = "miner",
-  Shop = "Shop",
+  Shop = "shop",
 }

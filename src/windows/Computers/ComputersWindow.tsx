@@ -3,6 +3,13 @@ import { Window } from "../../components/Window/Window";
 import { useEffect, useState } from "react";
 import { ComputersApi } from "../../core/api/ComputersApi";
 import { useUser } from "../../context/user-context";
+import { theme } from "../../helpers/theme";
+import { Image } from "../../components/Image/Image";
+
+import CommonComputerImg from "../../assets/images/computer_common.svg";
+import MinerComputerImg from "../../assets/images/computer_miner.svg";
+import ShopComputerImg from "../../assets/images/computer_shop.svg";
+import { ComputerType } from "../../typings/enums";
 
 interface ComputersWindowProps {
   isOpen?: boolean;
@@ -33,6 +40,16 @@ export const ComputersWindow: React.FC<ComputersWindowProps> = ({
     }
   };
 
+  const getImageByType = (computer: IComputer) => {
+    const bindings: Record<ComputerType, string> = {
+      [ComputerType.Common]: CommonComputerImg,
+      [ComputerType.Miner]: MinerComputerImg,
+      [ComputerType.Shop]: ShopComputerImg,
+    };
+
+    return bindings[computer.type];
+  };
+
   return (
     <>
       {isOpen && (
@@ -47,7 +64,13 @@ export const ComputersWindow: React.FC<ComputersWindowProps> = ({
               <NoComputers>Sem computadores</NoComputers>
             )}
             {computers.map((computer) => (
-              <Computer></Computer>
+              <Computer>
+                <ComputerImage source={getImageByType(computer)} />
+                <Col>
+                  <ComputerId>Computer#{computer.id}</ComputerId>
+                  <ComputerName>{computer.type}</ComputerName>
+                </Col>
+              </Computer>
             ))}
           </Computers>
         </Window>
@@ -55,6 +78,27 @@ export const ComputersWindow: React.FC<ComputersWindowProps> = ({
     </>
   );
 };
+
+const ComputerImage = styled(Image)`
+  width: 50px;
+  height: 50px;
+  margin-right: 12px;
+`;
+
+const ComputerId = styled.span`
+  font-weight: bold;
+`;
+
+const ComputerName = styled.span`
+  font-size: 14px;
+`;
+
+const Col = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+`;
 
 const NoComputers = styled.span`
   font-size: 14px;
@@ -67,8 +111,10 @@ const Computers = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 12px;
+  overflow-y: auto;
+  max-height: 400px;
+  gap: 12px;
 `;
 
 const Computer = styled.div`
@@ -76,4 +122,8 @@ const Computer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+
+  border: 2px solid ${theme.colors.dark};
+  padding: 12px;
+  border-radius: 12px;
 `;

@@ -10,7 +10,7 @@ function App() {
   return (
     <Container>
       {user ? <VinOsDesktop /> : <LoginPage />}
-      <AppVersion>beta-0.2.1</AppVersion>
+      <AppVersion>beta-0.2.0b</AppVersion>
     </Container>
   );
 }
