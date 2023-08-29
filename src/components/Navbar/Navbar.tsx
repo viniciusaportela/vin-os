@@ -5,8 +5,13 @@ import LogoutImg from "../../assets/images/logout.svg";
 import { Image } from "../Image/Image";
 import { useWindowsState } from "../../context/windows-state";
 import { theme } from "../../helpers/theme";
+import { OsWindow } from "../../constants/Windows";
 
-export const Navbar = () => {
+export interface NavbarProps {
+  onAppClick?: (window: OsWindow) => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onAppClick }) => {
   const [, setUser] = useUser();
   const [windowsState] = useWindowsState();
 
@@ -20,7 +25,9 @@ export const Navbar = () => {
       <OsLogo source={OsLogoSvg} />
       <Apps>
         {windowsState.map((state) => (
-          <OpenedAppContainer>
+          <OpenedAppContainer
+            onClick={() => onAppClick?.(state.name as OsWindow)}
+          >
             <Image source={state.logo} />
           </OpenedAppContainer>
         ))}

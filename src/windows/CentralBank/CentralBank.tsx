@@ -11,12 +11,16 @@ import { Divider } from "../../components/Divider/Divider";
 
 interface CentralBankProps {
   isOpen?: boolean;
+  isVisible?: boolean;
   onClose?: () => void;
+  onMinimize?: () => void;
 }
 
 export const CentralBank: React.FC<CentralBankProps> = ({
   isOpen,
+  isVisible,
   onClose,
+  onMinimize,
 }) => {
   const [page, setPage] = useState("home");
   const [user, setUser] = useUser();
@@ -109,7 +113,12 @@ export const CentralBank: React.FC<CentralBankProps> = ({
   return (
     <>
       {isOpen && (
-        <Window title="Banco Central" onClose={onClose}>
+        <Window
+          title="Banco Central"
+          onClose={onClose}
+          onMinimize={onMinimize}
+          style={{ visibility: isVisible ? "unset" : "hidden" }}
+        >
           {page === "home" && (
             <>
               <InnerPadding style={{ paddingBottom: 0 }}>
@@ -139,6 +148,10 @@ export const CentralBank: React.FC<CentralBankProps> = ({
       )}
     </>
   );
+};
+
+CentralBank.defaultProps = {
+  isVisible: true,
 };
 
 const InnerPadding = styled.div`

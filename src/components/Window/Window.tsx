@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useRef } from "react";
+import React, { CSSProperties, PropsWithChildren, useRef } from "react";
 import { styled } from "styled-components";
 import { v4 } from "uuid";
 
@@ -14,6 +14,7 @@ interface WindowProps extends PropsWithChildren {
   onClick?: (ev: any) => void;
   hideButtons?: boolean;
   customHeaderColor?: string;
+  style?: CSSProperties;
 }
 
 export const Window: React.FC<WindowProps> = ({
@@ -25,6 +26,7 @@ export const Window: React.FC<WindowProps> = ({
   onMinimize,
   hideButtons,
   customHeaderColor,
+  style,
 }) => {
   const id = useRef(v4());
 
@@ -41,7 +43,7 @@ export const Window: React.FC<WindowProps> = ({
         cancel=".cancel"
         bounds="body"
       >
-        <Container onClick={onClick}>
+        <Container onClick={onClick} style={style}>
           <CardOuterWrapper>
             <Content>
               <Header

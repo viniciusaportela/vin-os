@@ -47,8 +47,25 @@ export const useWindowsState = () => {
     });
   };
 
+  const changeWindowOpened = (window: OsWindow, state: boolean) => {
+    const setWindowsState = context[1];
+
+    setWindowsState((windowsState) => {
+      const statesCopy = [...windowsState];
+      const windowState = statesCopy.find((state) => state.name === window);
+      if (windowState) windowState.opened = state;
+      return statesCopy;
+    });
+  };
+
   return [
     context[0],
-    { setWindowState, setWindowsState: context[1], openWindow, closeWindow },
+    {
+      setWindowState,
+      setWindowsState: context[1],
+      openWindow,
+      closeWindow,
+      changeWindowOpened,
+    },
   ] as const;
 };

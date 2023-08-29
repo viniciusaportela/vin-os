@@ -1,12 +1,13 @@
 import { v4 } from "uuid";
+import { OsWindow } from "../../constants/Windows";
 
 export class WindowState {
   id: string;
-  name: string;
+  name: OsWindow;
   logo: string;
   opened: boolean;
 
-  constructor(name: string, logo: string) {
+  constructor(name: OsWindow, logo: string) {
     this.id = v4();
     this.name = name;
     this.logo = logo;

@@ -7,7 +7,8 @@ import { useWindowsState } from "../../context/windows-state";
 import { OsWindow } from "../../constants/Windows";
 
 export const VinOsDesktop = () => {
-  const [windowsState, { openWindow, closeWindow }] = useWindowsState();
+  const [windowsState, { openWindow, closeWindow, changeWindowOpened }] =
+    useWindowsState();
 
   const onOpen = (window: OsWindow) => {
     return () => {
@@ -21,9 +22,22 @@ export const VinOsDesktop = () => {
     };
   };
 
+  const onMinimize = (window: OsWindow) => {
+    return () => {
+      changeWindowOpened(window, false);
+    };
+  };
+
+  const onAppClick = (window: OsWindow) => {
+    return changeWindowOpened(
+      window,
+      !windowsState.find((state) => state.name === window)?.opened ?? true
+    );
+  };
+
   return (
     <>
-      <Navbar />
+      <Navbar onAppClick={onAppClick} />
       <Desktop>
         <AppIcon
           title="Banco Central"
@@ -33,9 +47,13 @@ export const VinOsDesktop = () => {
 
         <CentralBank
           isOpen={
-            windowsState.find((state) => state.name === OsWindow.CentralBank)
-              ?.opened
+            !!windowsState.find((state) => state.name === OsWindow.CentralBank)
           }
+          isVisible={
+            windowsState.find((state) => state.name === OsWindow.CentralBank)
+              ?.opened ?? true
+          }
+          onMinimize={onMinimize(OsWindow.CentralBank)}
           onClose={onClose(OsWindow.CentralBank)}
         />
       </Desktop>
