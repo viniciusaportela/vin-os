@@ -6,6 +6,8 @@ import axios from "axios";
 import { TransferPage } from "./TransferPage";
 import { formatCoins } from "../../helpers/formatCoins";
 import { Balance } from "./Balance";
+import { Button } from "../../components/Button/Button";
+import { Divider } from "../../components/Divider/Divider";
 
 interface CentralBankProps {
   isOpen?: boolean;
@@ -22,10 +24,12 @@ export const CentralBank: React.FC<CentralBankProps> = ({
   const [processedBlocks, setProcessedBlocks] = useState<any[]>([]);
 
   useEffect(() => {
-    updateUser();
-    updateTransfers();
-    updateProcessedBlocks();
-  }, []);
+    if (page === "home") {
+      updateUser();
+      updateTransfers();
+      updateProcessedBlocks();
+    }
+  }, [page]);
 
   const updateUser = async () => {
     try {
@@ -108,42 +112,62 @@ export const CentralBank: React.FC<CentralBankProps> = ({
         <Window title="Banco Central" onClose={onClose}>
           {page === "home" && (
             <>
-              <Balance coins={user?.coins} />
-              <TransferButton onClick={goToTransfer}>
-                Fazer Transferência
-              </TransferButton>
-              <TransfersTitle>Transações</TransfersTitle>
-              <Transfers>
+              <InnerPadding style={{ paddingBottom: 0 }}>
+                <Balance coins={user?.coins} />
+                <TransferButton onClick={goToTransfer}>
+                  Fazer Transferência
+                </TransferButton>
+                <StyledDivider />
+                <TransfersTitle>Suas Transações</TransfersTitle>
+              </InnerPadding>
+              <TransfersScrollContainer>
                 {messages.length === 0 && (
                   <NoTransfers>Sem transações</NoTransfers>
                 )}
                 {messages.map((message) => (
                   <Transfer>{message}</Transfer>
                 ))}
-              </Transfers>
+              </TransfersScrollContainer>
             </>
           )}
-          {page === "transfer" && <TransferPage setPage={setPage} />}
+          {page === "transfer" && (
+            <InnerPadding>
+              <TransferPage setPage={setPage} />
+            </InnerPadding>
+          )}
         </Window>
       )}
     </>
   );
 };
 
+const InnerPadding = styled.div`
+  padding: 14px;
+`;
+
+const TransfersScrollContainer = styled.div`
+  padding: 14px;
+  margin-top: 6px;
+  padding-top: 0px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  max-height: 250px;
+  overflow: auto;
+  flex: 1;
+  gap: 4px;
+`;
+
 const NoTransfers = styled.span``;
 
-const TransferButton = styled.div`
+const StyledDivider = styled(Divider)`
+  margin-top: 12px !important;
+  margin-left: -20px !important;
+  width: calc(100% + 40px) !important;
+`;
+
+const TransferButton = styled(Button)`
   width: 100%;
-  cursor: pointer;
-  margin-top: 8px;
-  font-weight: 600;
-  padding: 8px 10px;
-  background-color: #7564e1;
-  border: 1px solid #1f1d1d;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Transfer = styled.span`
@@ -151,14 +175,8 @@ const Transfer = styled.span`
 `;
 
 const TransfersTitle = styled.span`
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: bold;
-`;
-
-const Transfers = styled.div`
-  margin-top: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 800;
 `;

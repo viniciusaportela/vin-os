@@ -1,10 +1,9 @@
 * {
-  font-family: "Chakra Petch";
-  font-size: 14px;
-  font-weigth: 500;
-  -webkit-font-smoothing: none;
-  text-rendering: optimizeSpeed;
+  font-family: "Barlow";
+  font-size: 16px;
   box-sizing: border-box;
+  color: #33322e;
+  user-select: none;
 }
 
 .window-override {
@@ -22,6 +21,7 @@ html,
   overflow: hidden;
 }
 
+/* width */
 ::-webkit-scrollbar {
   width: 18px;
 }
@@ -33,14 +33,12 @@ html,
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  border: 1px solid black;
-  background-color: #b8afaf;
-  background-image: url("./assets/images/scroll_img.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  image-rendering: -moz-crisp-edges; /* Firefox */
-  image-rendering: -webkit-crisp-edges; /* Webkit - Chrome, Safari */
-  image-rendering: crisp-edges; /* Spec */
-  image-rendering: pixelated; /* Chrome */
+  background: #fff;
+  border-radius: 10px;
+  border: 2px solid #33322e;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fff;
 }

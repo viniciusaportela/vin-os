@@ -1,11 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import BackImg from "../../assets/images/back.png";
 import { Balance } from "./Balance";
 import { useUser } from "../../context/user-context";
-import { Divider } from "../../components/Divider/Divider";
 import axios from "axios";
 import { Alert } from "../../components/Alert/Alert";
+import { SubHeader } from "../../components/SubHeader/SubHeader";
+import { Input, InputLabel } from "../../components/Input/Input";
+import { Button } from "../../components/Button/Button";
+import { PlayerIcon } from "../../components/PlayerIcon/PlayerIcon";
 
 interface TransferPageProps {
   setPage: Dispatch<SetStateAction<string>>;
@@ -74,57 +76,47 @@ export const TransferPage: React.FC<TransferPageProps> = ({ setPage }) => {
 
   return (
     <Container>
-      <StyledButton onClick={goBack}>
-        <BackImage src={BackImg} />
-        Voltar
-      </StyledButton>
+      <StyledSubHeader text="Fazer Transferência" onBack={goBack} />
       <Balance coins={user?.coins} />
-      <StyledDivider />
-      <Label>Quantidade</Label>
+      <InputLabel>Quantidade</InputLabel>
       <Input
         type="number"
         value={quantity}
         onChange={(e) => setQuantity(parseFloat(e.target.value))}
       ></Input>
-      <Label>Jogador</Label>
+      <InputLabel>Jogador</InputLabel>
       <Players>
         {players.map((player) => (
           <Player
             onClick={onSelectPlayer(player)}
             selected={player.id === selectedPlayer?.id}
           >
-            <Head src={`https://mc-heads.net/avatar/${player.name}`} />
+            <PlayerIcon player={player.name} />
             <PlayerName selected={player.id === selectedPlayer?.id}>
               {player.name}
             </PlayerName>
           </Player>
         ))}
       </Players>
-      <CenterButton onClick={transfer}>Transferir</CenterButton>
+      <Button onClick={transfer}>Transferir</Button>
       <Alert isOpen={isAlertOpen} onClose={() => setIsAlertOpen(false)} />
     </Container>
   );
 };
 
-const Input = styled.input`
-  border: 1px solid black;
-  padding: 10px;
-  margin-top: 2px;
-  margin-bottom: 8px;
-  background-color: #d9d9d9;
-`;
-
-const Head = styled.img`
-  width: 40px;
-  height: 40px;
+const StyledSubHeader = styled(SubHeader)`
+  margin-top: -8px;
+  margin-bottom: 10px;
 `;
 
 const PlayerName = styled.span<{ selected?: boolean }>`
   text-align: center;
   color: ${({ selected }) => (selected ? "white" : "black")};
+  font-weight: 500;
 `;
 
 const Players = styled.div`
+  margin-top: 6px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -132,19 +124,17 @@ const Players = styled.div`
 `;
 
 const Player = styled.div<{ selected?: boolean }>`
-  width: 100px;
   display: flex;
+  width: 100px;
   flex-direction: column;
   background-color: ${({ selected }) => (selected ? "#7564e1" : "transparent")};
 
   align-items: center;
   justify-content: center;
+  border-radius: 12px;
   padding: 10px;
-`;
 
-const Label = styled.span`
-  font-weight: bold;
-  margin-bottom: 8px;
+  cursor: pointer;
 `;
 
 const Container = styled.div`
@@ -168,12 +158,3 @@ const StyledButton = styled.div`
 const CenterButton = styled(StyledButton)`
   justify-content: center;
 `;
-
-const BackImage = styled.img`
-  width: 15px;
-  height: 15px;
-  margin-right: 10px;
-  object-fit: contain;
-`;
-
-const StyledDivider = styled(Divider)``;
